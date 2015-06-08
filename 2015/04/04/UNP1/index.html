@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>unix network programming笔记 | KOO&#39;s Playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="经典必读，把关键几个章节记录并做笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unix network programming笔记">
+<meta property="og:url" content="http://ppoffice.github.io/2015/04/04/UNP1/index.html">
+<meta property="og:site_name" content="KOO's Playground">
+<meta property="og:description" content="经典必读，把关键几个章节记录并做笔记">
+<meta property="og:image" content="https://raw.githubusercontent.com/mars00772/write/master/unp1/tcp%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%B2%8C.JPG">
+<meta property="og:image" content="https://raw.githubusercontent.com/mars00772/write/master/unp1/listen%E7%9A%84%E9%98%9F%E5%88%97.JPG">
+<meta property="og:image" content="https://raw.githubusercontent.com/mars00772/write/master/unp1/TCP%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%85%B3%E9%97%AD%E8%BF%9E%E6%8E%A5.JPG">
+<meta property="og:image" content="https://raw.githubusercontent.com/mars00772/write/master/unp1/select%E5%AF%BC%E8%87%B4%E5%8F%AF%E8%AF%BB%E5%8F%AF%E5%86%99%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%80%BB%E7%BB%93.JPG">
+<meta property="og:image" content="https://raw.githubusercontent.com/mars00772/write/master/unp1/shutdown%E8%B0%83%E7%94%A8%E5%85%B3%E9%97%ADTCP%E4%B8%80%E5%8D%8A%E7%9A%84%E8%BF%9E%E6%8E%A5.JPG">
+<meta property="og:updated_time" content="2015-06-08T01:55:17.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="unix network programming笔记">
+<meta name="twitter:description" content="经典必读，把关键几个章节记录并做笔记">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/hexo-theme-icarus/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/hexo-theme-icarus/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo"><i class="logo"></i><span class="site-title">KOO&#39;s Playground</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/hexo-theme-icarus/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://ppoffice.github.io"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/about">About</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://ppoffice.github.io"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/hexo-theme-icarus/css/images/avatar.png">
+      <h2 id="name">KOO</h2>
+      <h3 id="title">C++ BackEnd Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Guangzhou, China</span>
+      <a id="follow" href="https://github.com/mars00772">关注我</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        4
+        <span>文章</span>
+      </div>
+      <div class="article-info-block">
+        4
+        <span>标签</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="/hexo-theme-icarus/#" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-UNP1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      unix network programming笔记
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/hexo-theme-icarus/2015/04/04/UNP1/">
+    <time datetime="2015-04-03T17:27:43.000Z" itemprop="datePublished">2015-04-04</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/">读书笔记</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/网络编程/">网络编程</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>经典必读，把关键几个章节记录并做笔记</p>
+<a id="more"></a>
+<h2 id="第二章：传输层TCP与UDP">第二章：传输层TCP与UDP</h2><p>传输层的协议，即TCP/UDP，他们使用网络层IP协议，其实可以绕过传输层直接使用IPV4/V6接口，被称之为原始套接字接口。<br><img src="https://raw.githubusercontent.com/mars00772/write/master/unp1/tcp%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%B2%8C.JPG" alt="TCP/IP协议概貌"><br>traceroute是用了ICMP和IP套接字接口，后续将会尝试开发一个IPV4/IPV6的ping与traceroute.</p>
+<ul>
+<li>通过在bind指定IP地址来说明他只接受某个特定本地接口的外来连接，使用INADDR_ANY来指定任意的本地IP。</li>
+</ul>
+<p>2.9 缓冲区大小及限制</p>
+<ul>
+<li>如果发送缓冲区容不下应用程序的所有数据，或者应用程序的缓冲区大于套接字发送缓冲区，或者套接字还有其他数据，应用程序将被挂起（前提是套接字是阻塞的）。内核直到将数据拷贝到套接字接口发送缓冲区才write接口返回。所以write调用返回仅仅<strong>意味着我们可以重新使用应用进程的缓冲区</strong>。</li>
+</ul>
+<h2 id="第三章：套接字编程接口简介">第三章：套接字编程接口简介</h2><p>作者说IPV4/IPV6的地址转换函数不一样，前者是inet_addr,inet_ntoa函数，而适用两者的新函数是inet_pton,inet_ntop。他开发了新函数以无关协议的方式使用套接字地址结构。</p>
+<h3 id="3-2_套接字地址结构">3.2 套接字地址结构</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> in_addr&#123;</span><br><span class="line">	<span class="keyword">in_addr_t</span> s_addr;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> sockaddr_in&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> sin_let;</span><br><span class="line">	<span class="keyword">sa_family_t</span> sin_family;</span><br><span class="line">	I<span class="keyword">n_port_t</span> sin_port;</span><br><span class="line">	<span class="keyword">struct</span> in_addr sin_addr;</span><br><span class="line">	<span class="keyword">char</span> sin_zero[<span class="number">8</span>];</span><br><span class="line">&#125;;<span class="comment">//地址结构仅给定主机上使用，并不参与通信</span></span><br></pre></td></tr></table></figure>
+<p>从进程到内核传递地址的结构有三个函数，bind，connect，sendto，他们接受一个地址结构的指针，以及结构地址的大小(sizeof)，于此才知道要拷贝多少数据。<br>以此方向相反的是accept，recvfrom，gesocketname，getpeername，他们的参数是套接字结构指针和指向表示结构大小的整数指针，用来告诉application内核确切存储了多少信息。</p>
+<h3 id="3-4_字节排序函数">3.4 字节排序函数</h3><p>将低序字节存储在起始位置，这是小端字节序，将高序字节存在起始地址，这是大端字节序。一个简单的判断方式是：<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">union</span>&#123;</span><br><span class="line">	<span class="keyword">short</span> s;</span><br><span class="line">	<span class="keyword">char</span> c[<span class="keyword">sizeof</span>(<span class="keyword">short</span>)];</span><br><span class="line">&#125;;</span><br><span class="line">un.s=<span class="number">0x0102</span>;</span><br><span class="line">un.c[<span class="number">0</span>]==<span class="number">1</span> &amp;&amp; un.c[<span class="number">1</span>]== <span class="number">2</span>;<span class="comment">//大端</span></span><br><span class="line">un.c[<span class="number">0</span>]==<span class="number">2</span> &amp;&amp; un.c[<span class="number">1</span>]== <span class="number">1</span>;<span class="comment">//小端</span></span><br></pre></td></tr></table></figure></p>
+<p>以上说的都是主机字节序号，网络字节序使用的是大端字节序。使用<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">uint16_t</span>  htons(<span class="keyword">uint16_t</span> val);</span><br><span class="line"><span class="keyword">uint32_t</span>  htonl(<span class="keyword">uint32_t</span> val); <span class="comment">// host to network long 返回网络字节序</span></span><br><span class="line"><span class="keyword">uint16_t</span>  ntohs(<span class="keyword">uint16_t</span> val);</span><br><span class="line"><span class="keyword">uint32_t</span>  ntohl(<span class="keyword">uint32_t</span> val); <span class="comment">// network to host long 返回主机字节序 /</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-9_readn,writen,readline函数">3.9 readn,writen,readline函数</h3><p>字节流套接字上的read、write函数所表现的行为不同于通常的文件IO，可能比要求的少，但这不是错误，原因可能是内核总套接字的buffer可能已经到达了极限，此时所需的是再次调用read、write函数以得到剩余的字节。<strong>在读socket时很常见，但在写非阻塞套接字接口时才会出现</strong>，上代码：<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Read "n" bytes from a descriptor. */</span></span><br><span class="line"><span class="keyword">ssize_t</span> readn(<span class="keyword">int</span> fd, <span class="keyword">void</span> *vptr, <span class="keyword">size_t</span> n)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">size_t</span>	nleft;</span><br><span class="line">	<span class="keyword">ssize_t</span>	nread;</span><br><span class="line">	<span class="keyword">char</span>	*ptr = vptr;</span><br><span class="line">	nleft = n;</span><br><span class="line">	<span class="keyword">while</span> (nleft &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> ( (nread = read(fd, ptr, nleft)) &lt; <span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (errno == EINTR)</span><br><span class="line">			<span class="comment">/* 系统调用被一个捕获的信号中断，这时候则重新调用一次read*/</span></span><br><span class="line">				nread = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				<span class="keyword">return</span>(-<span class="number">1</span>);</span><br><span class="line">		&#125;<span class="keyword">else</span> </span><br><span class="line">		<span class="keyword">if</span> (nread == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">/*读完了*/</span></span><br><span class="line">			<span class="keyword">break</span>;			</span><br><span class="line">		&#125;</span><br><span class="line">		nleft -= nread;</span><br><span class="line">		ptr   += nread;<span class="comment">//下次写的位置</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>(n - nleft);<span class="comment">/* return &gt;= 0 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">ssize_t</span> writen(<span class="keyword">int</span> fd, <span class="keyword">const</span> <span class="keyword">void</span> *vptr, <span class="keyword">size_t</span> n)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">size_t</span>		nleft;</span><br><span class="line">	<span class="keyword">ssize_t</span>		nwritten;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>	*ptr;</span><br><span class="line">	ptr = vptr;</span><br><span class="line">	nleft = n;</span><br><span class="line">	<span class="keyword">while</span> (nleft &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> ( (nwritten = write(fd, ptr, nleft)) &lt;= <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (errno == EINTR)</span><br><span class="line">				nwritten = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				<span class="keyword">return</span>(-<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		nleft -= nwritten;</span><br><span class="line">		ptr   += nwritten;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>(n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="第四章_基本套接字接口">第四章 基本套接字接口</h2><p>客户端调用connect时TCP三次握手，会返回的错误有:</p>
+<ul>
+<li>发出SYN，如果没收到这个SYN的ACK，返回ETIMEDOUT，有的bsd实现会退避重试。</li>
+<li>对SYN返回的是RST，表明对端没有启动该端口的服务，收到RST，connect立即返回ECONNREFUSED</li>
+<li>SYN引发了一个目的地不可达ICMP错误，返回EHOSTUNREACH<br>当connect返回错误，必须关闭套接字，重新调用socket()…</li>
+</ul>
+<p>bind的用途，嗯，意思是捆绑地址A，端口P到套接字S，把特定地址（必须是本机）捆绑到socket有何用途呢？</p>
+<ul>
+<li>对于客户端，为此套接字上发送的IP数据报分配了源IP地址</li>
+<li>对于服务器，为套接字只接受那些目的地为此IP地址的客户端连接</li>
+<li>客户端一般不bind客户端，而是由内核根据输出来选择源IP地址。</li>
+</ul>
+<p>listen函数仅被服务器调用，将客户端调用connect的套接字转换为被动套接字，指示内核接受指向此套接字的连接请求，TCP状态图指示，listen将套接字从close转换为listen状态。listen的backlog指示此套接字排队的长度，需要较大backlog长度的原因是：<strong>未完成连接队列中的挑明随着客户端SYN分节的到达并等待三次握手的完成而增大 </strong><br><img src="https://raw.githubusercontent.com/mars00772/write/master/unp1/listen%E7%9A%84%E9%98%9F%E5%88%97.JPG" alt="listen队列示意图"> listen队列示意图</p>
+<p>accept函数由服务器调用，从已完成连接队列头返回下一个已完成连接，若为空，则进程睡眠（阻塞方式），accept返回内核自动生成的全新套接字（称为连接套接字）。<br>fork函数最神奇的部分是调用一次，却返回两次，在调用进程返回一次，返回的是子进程pid，在新派生的进程返回0。<br>accept返回前连接夭折的情况：<br>三次握手完成，连接建立后，客户端返回一个RST，模拟场景是，服务器调用socket，bind，listen，然后先sleep再accept，此时客户端的connect返回后，立即调用SOCKET-OPT，SO_LINGER以生成RST，Posix.1g是内核返回给application，提示错误ECONNABORTED，此时只要忽略错误，简单地再调用一次accept即可。</p>
+<h3 id="客户端停止">客户端停止</h3><p>这是正常行为，但由于父进程未处理SIGCHLD信号，子进程变成僵尸进程。unix系统的这个设定是为了给父进程维护id，CPU，内存等资源使用信息， 下图描述了客户端停止的时序图.<br><img src="https://raw.githubusercontent.com/mars00772/write/master/unp1/TCP%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%85%B3%E9%97%AD%E8%BF%9E%E6%8E%A5.JPG" alt="停止的时序图"></p>
+<h3 id="处理SIGCHLD信号">处理SIGCHLD信号</h3><p>信号可以由内核发给进程，或者进程发给进程（包括自己），捕获SIGCHLD信号，并在处理函数中调用wait，即可处理僵尸进程。需要注意的是<strong>unix信号是不排队的</strong>，这带来的一个问题是当有N个子进程被终止，父进程同时收到SIGCHLD信号，但使用wait函数时只信号handle只处理了一次，导致仍有0~N-1个僵尸进程。所以作者强调，使用waitpid在有未终止的子进程时，不要阻塞。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void sig_chld(int signo)&#10;&#123;&#10;&#9;pid_t&#9;pid;&#10;&#9;int&#9;&#9;stat;&#10;&#10;&#9;while((pid = waitpid(-1, &#38;stat, WNOHANG)) &#62; 0) &#123;&#10;&#9;&#9;printf(&#34;child %d terminated\n&#34;, pid);&#10;&#9;&#125;&#10;&#9;return;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="服务器进程终止">服务器进程终止</h3><p>client-&gt;srv正常连接后，kill掉服务器，服务器发出FIN分节，客户端以ACK响应，信号SIGCHLD被发往父进程并正确处理。<br>客户端收到FIN意味着服务器关闭了连接服务器的一端，服务器不再发任何数据。但客户端仍阻塞在fget上。接下来：<br>client调用wirte，这是允许的，仅接受到FIN而且为内核并未通知application客户端，这时候，服务器返回一个RST。<br>接下来调用了readline，由于已经收到过FIN，readline立即返回0，根据时序，得到的错误一般是服务器过早结束<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (Readline(sockfd, recvline, MAXLINE) == 0)&#10;&#9;err_quit(&#34;str_cli: server terminated prematurely&#34;);</span><br></pre></td></tr></table></figure></p>
+<p>问题来了：如果客户端在读之前写两次，第一次引发了一次RST，第二次内核会发出一个SIGPIPE信号，应该捕获这个信号阻止他的默认退出行为。然后写操作将会返回EPIPE错误。</p>
+<h3 id="服务器主机崩溃">服务器主机崩溃</h3><p>主机崩溃时，服务器发不出任何东西，在客户端发出字符串后，主机崩溃，用tcpdump可以看到tcp持续重传了12次，约9分钟。然后返回一个ETIMEDOUT错误，如果是路由器判断的不可用，并以目的地不可达的ICMP响应，则返回EHOSTUNREACH。</p>
+<ul>
+<li>我们发送数据才检测出对方主机崩溃，而且要等9分钟，一种办法是调用read时设置超时时间。</li>
+<li>如果不发送数据也想检测这种错误，使用SO_KEEPALIVE技术，晚点讨论。</li>
+</ul>
+<h2 id="第六章_IO复用：select与poll函数">第六章 IO复用：select与poll函数</h2><p>select原型:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include&#60;sys/time.h&#62;&#10;int select(int maxfdp1,fd_set* readset,fd_set* writeset,fd_set* exceptset,const struct timeval* timeout);</span><br></pre></td></tr></table></figure></p>
+<p>如果一个或者N个IO条件满足，我们可以被通知到，这个能力就叫IO复用，使用场景：</p>
+<ul>
+<li>客户端处理多个描述字（交互式输入和网络IO）</li>
+<li>客户端处理多个套接字</li>
+<li>TCP服务器既要监听，也要处理已连接的套接字</li>
+</ul>
+<p>五种IO模型：</p>
+<ul>
+<li>阻塞/非阻塞IO</li>
+<li>IO复用</li>
+<li>信号驱动IO</li>
+<li>异步IO<br>对于select，如果将readset、writeset、exceptset中三个指针都设置为空，则有了一个比sleep更精确的定时器，APUE利用此实现了微秒的睡眠函数sleep_us。</li>
+</ul>
+<h3 id="描述字准备好读条件">描述字准备好读条件</h3><ul>
+<li>接受socket的buffer&gt;=设置的低潮限度，TCP/UDP的buffer低潮限度可用SO_RCVLOWAT设置，默认为1字节</li>
+<li>连接读这一半关闭（接收了FIN的TCP连接），读操作时返回0表示文件结束符</li>
+<li>是监听套接字，并且已完成的连接数为非0（accept仍可能阻塞）正常情况下accept是不会阻塞的。</li>
+<li>有一个socket错误等待处理，读取errno即可，或者设置SO_ERROR，然后调用getsockopt也可以取得并清除。</li>
+</ul>
+<h3 id="套接字准备好写条件">套接字准备好写条件</h3><ul>
+<li>socket发送buffer字节数&gt;=socket发送缓冲区低潮限度的value，利用SO_SNDLOWAT来设置低潮限度，一般默认为2048</li>
+<li>连接的写这一半关闭，对该socket写会产生信号SIGPIPE</li>
+<li>socket存在外带数据或者处于外带标记，那他有异常条件待处理(21章描述外带数据，todo）</li>
+</ul>
+<p><strong>一个套接字出错时，它由select标记为即可读又可写</strong><br>低潮限度的目的是select返回可读可写前，application可以对有多少数据可读或者多大空间可写进行控制，例如，为了防止小于64bytes的数据准备好select就唤醒我们，就将低潮限度设置为64个字节。</p>
+<h3 id="重写str_cli函数">重写str_cli函数</h3><p>上节中，服务器主动关闭，套接字发生了些事情，客户端却阻塞在fgets上，新版本目标是让其阻塞在select上，或是等待标准输入，或是等待套接字可读。<br>三个条件:<br><img src="https://raw.githubusercontent.com/mars00772/write/master/unp1/select%E5%AF%BC%E8%87%B4%E5%8F%AF%E8%AF%BB%E5%8F%AF%E5%86%99%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%80%BB%E7%BB%93.JPG" alt="图"><br>1.socket可读，read返回大于0的val==&gt;即字节数<br>2.对方发一个FIN（进程关闭），套接字可读，返回一个0（即EOF）<br>3.对方发一个RST（主机重启），套接字可读，返回一个-1，errno有明确的错误码。<br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">str_cli</span><span class="params">(FILE *fp, <span class="keyword">int</span> sockfd)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>	maxfdp1;</span><br><span class="line">	fd_set rset;</span><br><span class="line">	<span class="keyword">char</span> sendline[MAXLINE], recvline[MAXLINE];</span><br><span class="line"></span><br><span class="line">	FD_ZERO(&amp;rset);</span><br><span class="line">	<span class="keyword">for</span> ( ; ; )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//fp调用时设置为stdin</span></span><br><span class="line">		FD_SET(fileno(fp), &amp;rset);</span><br><span class="line">		<span class="comment">//新建的connect成功的fd</span></span><br><span class="line">		FD_SET(sockfd, &amp;rset);</span><br><span class="line">		maxfdp1 = max(fileno(fp), sockfd) + <span class="number">1</span>;</span><br><span class="line">		Select(maxfdp1, &amp;rset, NULL, NULL, NULL);</span><br><span class="line">		<span class="comment">/* socket is readable */</span></span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(sockfd, &amp;rset))</span><br><span class="line">		&#123;	</span><br><span class="line">			<span class="keyword">if</span>(Readline(sockfd, recvline, MAXLINE) == <span class="number">0</span>)</span><br><span class="line">			err_quit(<span class="string">"str_cli: server terminated prematurely"</span>);</span><br><span class="line">			Fputs(recvline, stdout);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* input is readable */</span></span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(fileno(fp), &amp;rset)) </span><br><span class="line">		&#123;  </span><br><span class="line">		<span class="comment">// bug，输入文件EOF并不意味着已经完成了socket的所有读</span></span><br><span class="line">			<span class="keyword">if</span> (Fgets(sendline, MAXLINE, fp) == NULL)</span><br><span class="line">				<span class="keyword">return</span>;		<span class="comment">/* all done */</span></span><br><span class="line">			Writen(sockfd, sendline, <span class="built_in">strlen</span>(sendline));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码有bug，如果fgets从输入得到EOF，立即返回main函数，于是socket被关闭，在server端此时会提示，<br><strong>readline error: Connection reset by peer</strong>，我们需要一种告诉服务器一个FIN，我们已经完成数据发送，仍为读开放的套接字，考虑使用shutdown。</p>
+<h3 id="使用shutdown函数">使用shutdown函数</h3><p>close函数是终止网络连接的正常方法，但它有几个限制：</p>
+<ul>
+<li>close将访问计数-1，仅为0时我们才关闭套接字，详细见4.8节，shutdown是触发FIN分节</li>
+<li>close同时终止了读和写两个方向，导致上节讨论的问题</li>
+</ul>
+<p>图，shutdown关闭了一半的TCP连接：<br><img src="https://raw.githubusercontent.com/mars00772/write/master/unp1/shutdown%E8%B0%83%E7%94%A8%E5%85%B3%E9%97%ADTCP%E4%B8%80%E5%8D%8A%E7%9A%84%E8%BF%9E%E6%8E%A5.JPG" alt="shutdown"><br>三种关闭方式</p>
+<ul>
+<li>SHUT_RD关闭读的这一半，不再接收套接字的数据而且，现留在buffer的数据都作废，不能执行任何读操作了</li>
+<li>SHUT_WR关闭写的这一半，当前在buffer内的数据都被发送，但此后不该执行任何写相干操作。<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">str_cli</span><span class="params">(FILE *fp, <span class="keyword">int</span> sockfd)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>			maxfdp1, stdineof;</span><br><span class="line">	fd_set		rset;</span><br><span class="line">	<span class="keyword">char</span>		sendline[MAXLINE],recvline[MAXLINE];</span><br><span class="line">	stdineof = <span class="number">0</span>;</span><br><span class="line">	FD_ZERO(&amp;rset);</span><br><span class="line">	<span class="keyword">for</span> ( ; ; )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (stdineof == <span class="number">0</span>)</span><br><span class="line">			FD_SET(fileno(fp), &amp;rset);</span><br><span class="line">		FD_SET(sockfd, &amp;rset);</span><br><span class="line">		maxfdp1 = max(fileno(fp), sockfd) + <span class="number">1</span>;</span><br><span class="line">		Select(maxfdp1, &amp;rset, NULL, NULL, NULL);</span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(sockfd, &amp;rset)) &#123;	<span class="comment">/* socket is readable */</span></span><br><span class="line">			<span class="keyword">if</span> (Readline(sockfd, recvline, MAXLINE) == <span class="number">0</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span> (stdineof == <span class="number">1</span>)</span><br><span class="line">					<span class="keyword">return</span>;		<span class="comment">/* normal termination */</span></span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					err_quit(<span class="string">"str_cli: server terminated prematurely"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			Fputs(recvline, stdout);</span><br><span class="line">		&#125;</span><br><span class="line">		 <span class="comment">/* input is readable */</span></span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(fileno(fp), &amp;rset)) &#123; </span><br><span class="line">			<span class="keyword">if</span> (Fgets(sendline, MAXLINE, fp) == NULL) &#123;</span><br><span class="line">				stdineof = <span class="number">1</span>;</span><br><span class="line">				<span class="comment">// 发送一个FIN给服务器，表明我没有跟多数据要发送了</span></span><br><span class="line">				Shutdown(sockfd, SHUT_WR);</span><br><span class="line">				FD_CLR(fileno(fp), &amp;rset);</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			Writen(sockfd, sendline, <span class="built_in">strlen</span>(sendline));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="改造单进程服务器（不用fork）">改造单进程服务器（不用fork）</h3><p>使用select来重写任意客户端的单进程服务端<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int main(int argc, char **argv)&#10;&#123;&#10;&#9;int&#9;&#9;&#9;&#9;&#9;i, maxi, maxfd, listenfd, connfd, sockfd;&#10;&#9;int&#9;&#9;&#9;&#9;&#9;nready, client[FD_SETSIZE];&#10;&#9;ssize_t&#9;&#9;&#9;&#9;n;&#10;&#9;fd_set&#9;&#9;&#9;&#9;rset, allset;&#10;&#9;char&#9;&#9;&#9;&#9;line[MAXLINE];&#10;&#9;socklen_t&#9;&#9;&#9;clilen;&#10;&#9;struct sockaddr_in&#9;cliaddr, servaddr;&#10;&#9;listenfd = Socket(AF_INET, SOCK_STREAM, 0);&#10;&#9;bzero(&#38;servaddr, sizeof(servaddr));&#10;&#9;servaddr.sin_family      = AF_INET;&#10;&#9;servaddr.sin_addr.s_addr = htonl(INADDR_ANY);&#10;&#9;servaddr.sin_port        = htons(SERV_PORT);&#10;&#9;Bind(listenfd, (SA *) &#38;servaddr, sizeof(servaddr));&#10;&#9;Listen(listenfd, LISTENQ);&#10;&#9;maxfd = listenfd;&#9;&#9;&#9;/* initialize */&#10;&#9;maxi = -1;&#9;&#9;&#9;&#9;&#9;/* index into client[] array */&#10;&#9;for (i = 0; i &#60; FD_SETSIZE; i++)&#10;&#9;&#9;client[i] = -1;&#9;&#9;&#9;/* -1 indicates available entry */&#10;&#9;FD_ZERO(&#38;allset);&#10;&#9;FD_SET(listenfd, &#38;allset);&#10;&#9;for ( ; ; ) &#10;&#9;&#123;&#10;&#9;&#9;//&#26032;&#23458;&#25143;&#24314;&#31435;&#36830;&#25509;&#65292;&#25110;&#26159;&#25968;&#25454;&#65292;fin&#25110;&#32773;RST&#21040;&#36798;&#10;&#9;&#9;rset = allset;&#9;&#9;/* structure assignment */&#10;&#9;&#9;nready = Select(maxfd+1, &#38;rset, NULL, NULL, NULL);&#10;&#10;&#9;&#9;//&#22914;&#26524;&#26159;listenfd&#30340;&#35835;&#20107;&#20214;&#65292;accept&#20043;&#10;&#9;&#9;if (FD_ISSET(listenfd, &#38;rset)) &#10;&#9;&#9;&#123;&#9;/* new client connection */&#10;&#9;&#9;&#9;clilen = sizeof(cliaddr);&#10;&#9;&#9;&#9;connfd = Accept(listenfd, (SA *) &#38;cliaddr, &#38;clilen);&#10;&#9;&#9;&#9;//&#25353;&#39034;&#24207;&#23384;&#21508;&#20010;FD&#10;&#9;&#9;&#9;for (i = 0; i &#60; FD_SETSIZE; i++)&#10;&#9;&#9;&#9;&#9;if (client[i] &#60; 0) &#123;&#10;&#9;&#9;&#9;&#9;&#9;client[i] = connfd;&#9;/* save descriptor */&#10;&#9;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;if (i == FD_SETSIZE)&#10;&#9;&#9;&#9;&#9;err_quit(&#34;too many c ients&#34;);&#10;&#10;&#9;&#9;&#9;FD_SET(connfd, &#38;allset);&#9;/* add new descriptor to set */&#10;&#9;&#9;&#9;if (connfd &#62; maxfd)&#10;&#9;&#9;&#9;&#9;maxfd = connfd;&#9;&#9;&#9;/* for select */&#10;&#9;&#9;&#9;if (i &#62; maxi)&#10;&#9;&#9;&#9;&#9;maxi = i;&#9;&#9;&#9;&#9;/* max index in client[] array */&#10;&#10;&#9;&#9;&#9;//&#26377;&#20854;&#20182;fd&#10;&#9;&#9;&#9;if (--nready &#60;= 0)&#10;&#9;&#9;&#9;&#9;continue;&#9;&#9;&#9;&#9;/* no more readable descriptors */&#10;&#9;&#9;&#125;&#10;&#9;&#9;//&#22914;&#26524;&#36824;&#26377;&#20854;&#20182;FD&#65292;&#20840;&#37117;&#35797;&#35797;&#10;&#9;&#9;for (i = 0; i &#60;= maxi; i++)//&#10;&#9;&#9;&#123;&#9;/* check all clients for data */&#10;&#9;&#9;&#9;if ( (sockfd = client[i]) &#60; 0)&#10;&#9;&#9;&#9;&#9;continue;&#10;&#9;&#9;&#9;if (FD_ISSET(sockfd, &#38;rset)) &#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if ( (n = Readline(sockfd, line, MAXLINE)) == 0) &#10;&#9;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;&#9;&#9;/*4connection closed by client */&#10;&#9;&#9;&#9;&#9;&#9;Close(sockfd);&#10;&#9;&#9;&#9;&#9;&#9;FD_CLR(sockfd, &#38;allset);&#10;&#9;&#9;&#9;&#9;&#9;client[i] = -1;&#10;&#9;&#9;&#9;&#9;&#125; else&#10;&#9;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;&#9;Writen(sockfd, line, n);&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;&#9;if (--nready &#60;= 0)&#10;&#9;&#9;&#9;&#9;&#9;break;&#9;&#9;&#9;&#9;/* no more readable descriptors */&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#125;&#10;&#9;&#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="pselect">pselect</h3><p>select原型:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include&#60;sys/time.h&#62;&#10;int select(int maxfdp1,fd_set* readset,fd_set* writeset,fd_set* exceptset,const struct timeval* timeout);</span><br></pre></td></tr></table></figure></p>
+<p>pselect原型：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include&#60;sys/select.h&#62;&#10;#include&#60;signal.h&#62;&#10;#include&#60;time.h&#62;&#10;int pselect(int maxfdp1,fd_set* readset,fd_set* writeset,fd_set* exceptset,const struct timespec* timeout,const sygset_t* sigmask);</span><br></pre></td></tr></table></figure></p>
+<p>新的timespec结构规定了纳秒数，老结构tv_usec则规定了微秒数。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include&#60;poll.h&#62;&#10;int poll(struct pollfd *fd,unsigned long nfds,int timeout);&#10;struct pollfd&#123;&#10;int fd;&#10;short events;//&#23545;fd&#35201;&#27979;&#35797;&#30340;&#26465;&#20214;&#10;short revents;//fd&#30340;&#29366;&#24577;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>用到的常量<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#26082;&#21487;&#20316;&#20026;&#36755;&#20837;&#65292;&#20063;&#21487;&#20197;&#20316;&#20026;&#36755;&#20986;&#10;POLLIN&#10;POLLRDNMRM&#10;POLLRDBAND&#10;POLLPRI&#10;POLLOUT&#10;POLLWRNORM&#10;POLLWRBAND&#10;&#20197;&#19979;&#19981;&#21487;&#29992;&#20316;events&#36755;&#20837;&#65292;&#20043;&#20316;&#20026;&#36755;&#20986;&#10;POLLERR&#10;POLLUP&#10;POLLNVAL</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://ppoffice.github.io/2015/04/04/UNP1/" data-id="cianh42cz000jj8qhy2tqulmv" class="article-share-link">分享到</a>
+      
+        <a href="http://ppoffice.github.io/2015/04/04/UNP1/#disqus_thread" class="article-comment-link">评论</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/hexo-theme-icarus/tags/笔记/">笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/hexo-theme-icarus/tags/网络编程/">网络编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/hexo-theme-icarus/2015/04/07/effective tcp/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Notes On Effective TCP/IP Programming
+        
+      </div>
+    </a>
+  
+  
+    <a href="/hexo-theme-icarus/2015/03/04/Apache Pig in Practice 1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Apache Pig in Practice 1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/hexo-theme-icarus/2015/04/07/effective tcp/" class="thumbnail">
+  
+    <span style="background-image:url(http://www.cppblog.com/images/cppblog_com/Solstice/Windows-Live-Writer/958c781e7d58_E312/router_3.png
+)" alt="Notes On Effective TCP/IP Programming" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/">读书笔记</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/网络编程/">网络编程</a></p>
+              <p class="item-title"><a href="/hexo-theme-icarus/2015/04/07/effective tcp/" class="title">Notes On Effective TCP/IP Programming</a></p>
+              <p class="item-date"><time datetime="2015-04-06T17:27:43.000Z" itemprop="datePublished">2015-04-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/hexo-theme-icarus/2015/04/04/UNP1/" class="thumbnail">
+  
+    <span style="background-image:url(https://raw.githubusercontent.com/mars00772/write/master/unp1/tcp%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%B2%8C.JPG
+)" alt="unix network programming笔记" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/">读书笔记</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/hexo-theme-icarus/categories/读书笔记/网络编程/">网络编程</a></p>
+              <p class="item-title"><a href="/hexo-theme-icarus/2015/04/04/UNP1/" class="title">unix network programming笔记</a></p>
+              <p class="item-date"><time datetime="2015-04-03T17:27:43.000Z" itemprop="datePublished">2015-04-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/hexo-theme-icarus/2015/03/04/Apache Pig in Practice 1/" class="thumbnail">
+  
+    <span style="background-image:url(http://wenzhong.qiniudn.com/pig1.png
+)" alt="Apache Pig in Practice 1" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/hexo-theme-icarus/categories/Engineering/">Engineering</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/hexo-theme-icarus/categories/Engineering/Big-Data/">Big Data</a></p>
+              <p class="item-title"><a href="/hexo-theme-icarus/2015/03/04/Apache Pig in Practice 1/" class="title">Apache Pig in Practice 1</a></p>
+              <p class="item-date"><time datetime="2015-03-03T17:27:43.000Z" itemprop="datePublished">2015-03-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/hexo-theme-icarus/2014/07/04/hello-world/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/hexo-theme-icarus/2014/07/04/hello-world/" class="title">Hello World</a></p>
+              <p class="item-date"><time datetime="2014-07-03T17:27:43.000Z" itemprop="datePublished">2014-07-04</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/hexo-theme-icarus/categories/Engineering/">Engineering</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/hexo-theme-icarus/categories/Engineering/Big-Data/">Big Data</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/hexo-theme-icarus/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/hexo-theme-icarus/categories/读书笔记/网络编程/">网络编程</a><span class="category-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/hexo-theme-icarus/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/hexo-theme-icarus/tags/Pig/">Pig</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/hexo-theme-icarus/tags/笔记/">笔记</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/hexo-theme-icarus/tags/网络编程/">网络编程</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/hexo-theme-icarus/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/hexo-theme-icarus/tags/Pig/" style="font-size: 10px;">Pig</a> <a href="/hexo-theme-icarus/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/hexo-theme-icarus/tags/网络编程/" style="font-size: 20px;">网络编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/hexo-theme-icarus/archives/2015/04/">四月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/hexo-theme-icarus/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/hexo-theme-icarus/archives/2014/07/">七月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 KOO<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'jermery';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/hexo-theme-icarus/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/hexo-theme-icarus/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/hexo-theme-icarus/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
