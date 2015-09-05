@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/4 | KOO&#39;s Playground</title>
+  <title>Linux Shell脚本攻略笔记 | KOO&#39;s Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="KOO&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="KOO's Playground">
-<meta property="og:url" content="/archives/2015/04/index.html">
+  <meta name="description" content="记录了《Linux Shell脚本攻略》的笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Shell脚本攻略笔记">
+<meta property="og:url" content="/2015/07/04/notes_on_shell_script/index.html">
 <meta property="og:site_name" content="KOO's Playground">
-<meta property="og:description" content="KOO&apos;s blog">
+<meta property="og:description" content="记录了《Linux Shell脚本攻略》的笔记。">
+<meta property="og:image" content="/images/command-line-linux.png">
+<meta property="og:updated_time" content="2015-08-29T12:31:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KOO's Playground">
-<meta name="twitter:description" content="KOO&apos;s blog">
+<meta name="twitter:title" content="Linux Shell脚本攻略笔记">
+<meta name="twitter:description" content="记录了《Linux Shell脚本攻略》的笔记。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -105,79 +107,126 @@
     
   </div>
 </aside>
-      <section id="main">
-      <div class="archive-year-wrap">
-        <a href="/archives/2015" class="archive-year">2015</a>
-      </div>
-      <section class="archives-wrap">
-        <div class="archives">
+      <section id="main"><article id="post-notes_on_shell_script" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
     
-    <div class="archive-article-thumbnail">
-      <a href="/2015/04/07/effective tcp/" class="thumbnail">
-  
-    <span style="background-image:url(http://www.cppblog.com/images/cppblog_com/Solstice/Windows-Live-Writer/958c781e7d58_E312/router_3.png
-)" alt="Notes On Effective TCP/IP Programming" class="thumbnail-image"></span>
-  
-</a>
-    </div>
     
-    <header class="archive-article-header">
-      
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/07/effective tcp/">Notes On Effective TCP/IP Programming</a>
+    <h1 class="article-title" itemprop="name">
+      Linux Shell脚本攻略笔记
     </h1>
   
 
-      
-        <div class="archive-article-date">
+        <div class="article-meta">
+          <div class="article-date">
   <i class="fa fa-calendar"></i>
-  <a href="/2015/04/07/effective tcp/">
-    <time datetime="2015-04-06T17:27:43.000Z" itemprop="datePublished">4月 7</time>
+  <a href="/2015/07/04/notes_on_shell_script/">
+    <time datetime="2015-07-04T08:27:43.000Z" itemprop="datePublished">2015-07-04</time>
   </a>
 </div>
-      
-    </header>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/读书笔记/shell编程/">shell编程</a>
   </div>
-</article>
-  
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    
-    <div class="archive-article-thumbnail">
-      <a href="/2015/04/04/UNP1/" class="thumbnail">
-  
-    <span style="background-image:url(https://raw.githubusercontent.com/mars00772/write/master/unp1/tcp%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%B2%8C.JPG
-)" alt="unix network programming笔记" class="thumbnail-image"></span>
-  
-</a>
-    </div>
-    
-    <header class="archive-article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/04/UNP1/">unix network programming笔记</a>
-    </h1>
-  
 
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
       
-        <div class="archive-article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2015/04/04/UNP1/">
-    <time datetime="2015-04-03T17:27:43.000Z" itemprop="datePublished">4月 4</time>
-  </a>
-</div>
+        <p><img src="/images/command-line-linux.png" alt=""><br>记录了《Linux Shell脚本攻略》的笔记。</p>
+<a id="more"></a>
+<h3 id="linux_shell_常识">linux shell 常识</h3><ul>
+<li>cmd中0：标准输入，1标准输出，2是stderr，如：find / -name “*.conf” 2&gt;&gt;/dev/null</li>
+<li>cmd &gt;out.file 2&gt;&amp;1 将stderr重定向到stdout</li>
+<li>cmd &gt;out.file 2&gt;1 将stderr重定向到文件1</li>
+</ul>
+<h3 id="2-4_文件查找与文件列表">2.4 文件查找与文件列表</h3><p>find是最常用的命令之一，功能强大到一时难以掌握全部。<br>1.找出特定文件类型<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$ find -name &#34;*.cpp&#34; -print&#10;#-iname &#24573;&#30053;&#22823;&#23567;&#20889;&#10;$ find -iname &#34;*.cpp&#34; -print&#10;#&#22810;&#20010;&#26465;&#20214;,&#29992;or(-o),&#20063;&#26377;and(-a)&#10;$ find . -name &#34;*.cpp&#34; -o name &#34;*.h&#34; -print</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-1_使用-type查找指定文件类型的文件">2.4.1 使用-type查找指定文件类型的文件</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">文件类型</th>
+<th style="text-align:left">类型参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">普通文件</td>
+<td style="text-align:left">f</td>
+</tr>
+<tr>
+<td style="text-align:left">符号链接</td>
+<td style="text-align:left">l</td>
+</tr>
+<tr>
+<td style="text-align:left">字符设备</td>
+<td style="text-align:left">c</td>
+</tr>
+<tr>
+<td style="text-align:left">块设备</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">套接字</td>
+<td style="text-align:left">s</td>
+</tr>
+<tr>
+<td style="text-align:left">Fifo</td>
+<td style="text-align:left">p</td>
+</tr>
+<tr>
+<td style="text-align:left">目录</td>
+<td style="text-align:left">d</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">#&#26597;&#25214;socket&#25991;&#20214;&#10;$ find . -type s&#10;#&#26597;&#25214;&#25152;&#26377;&#30340;&#30446;&#24405;&#10;$ find . -type d&#10;#&#26597;&#25214;&#25152;&#26377;&#30340;&#19968;&#33324;&#25991;&#20214;&#10;$ find . -type f&#10;#&#26597;&#25214;&#25152;&#26377;&#30340;&#38544;&#34255;&#25991;&#20214;&#10;$ find . -type f -name &#34;.*&#34;&#10;#&#26597;&#25214;&#25152;&#26377;&#30340;&#38544;&#34255;&#30446;&#24405;&#10;$ find -type d -name &#34;.*&#34;</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-2目录深度设置">2.4.2目录深度设置</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">#&#24403;&#21069;&#19968;&#32423;&#26597;&#25214;&#21363;&#21487;&#10;$ find . -maxdepth 1 -type f -print</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-3与时间相关">2.4.3与时间相关</h4><p>单位是天<br>-atime:用户最近一次访问文件的时间。<br>-mtime:文件内容最后一次被修改的时间。<br>-ctime:文件元数据（metadata，例如权限或所有权）最后一次改变的时间。<br>符合后面可以添加整数，这些整数值通常还带有 - 或 + ：- 表示小于，+ 表示大于。<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">#&#26368;&#36817;&#65288;&#23567;&#20110;&#65289;7&#22825;&#20869;&#34987;&#35775;&#38382;&#30340;&#25991;&#20214;&#10;$ find . -type -f -atime -7 -print &#10;#&#26368;&#36817;&#35775;&#38382;&#26102;&#38388;&#36229;&#36807;7&#22825;&#10;$ find . -type -f -atime +7 -print</span><br></pre></td></tr></table></figure></p>
+<p>单位是分钟<br>-amin:访问时间<br>-mmin:修改时间<br>-cmin:变化时间</p>
+<p>-newer 找出比xxx还新的文件<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$ find -newer xxx</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-4与size相关">2.4.4与size相关</h4><p>b —— 块（512字节）。<br>c —— 字节。<br>w —— 字（2字节）。<br>k —— 千字节。<br>M —— 兆字节。<br>G —— 吉字节。<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line"># &#22823;&#20110;2KB&#30340;&#25991;&#20214;&#10;$ find . -type f -size +2k&#10;&#12288;&#10;# &#23567;&#20110;2KB&#30340;&#25991;&#20214;&#10;$ find . -type f -size -2k&#10;&#12288;&#10;# &#22823;&#23567;&#31561;&#20110;2KB&#30340;&#25991;&#20214;&#10;$ find . -type f -size 2k&#10;&#10;# &#25214;&#20986;&#26368;&#22823;&#30340;5&#20010;&#25991;&#20214;&#10;$ find . -type f -exec ls -s &#123;&#125; \; | sort -n -r | head -5&#10;&#10;#&#25214;&#20986;&#38750;&#31354;&#30340;&#26368;&#23567;&#30340;5&#20010;&#25991;&#20214;&#10;$ find . -not -empty -type f -exec ls -s &#123;&#125; \; | sort -n  | head -5&#10;&#10;#&#25214;&#20986;&#31354;&#25991;&#20214;&#10;find . -empty</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-5查找到后的动作">2.4.5查找到后的动作</h4><p>find结合-exec可组合出最强大的执行动作，格式都是在find后添加-exec + your cmd + {} + \;<br>{}即为经过find匹配的文件名。<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$ find . -type f -size +2M -exec ls -thrl &#123;&#125; \; &#10;#printf &#21644;C&#30340;prinf&#19968;&#26679;&#20855;&#22791;&#26684;&#24335;&#21270;&#33021;&#21147;&#10;$ find . -type f -name &#34;*.txt&#34; -exec printf &#34;Text file: %s\n&#34; &#123;&#125; \;&#10;#&#23558;&#36229;&#36807;10&#22825;&#27809;&#20154;&#35775;&#38382;&#30340;&#25991;&#20214;&#25335;&#36125;&#21040;OLD&#30446;&#24405;&#10;$ find . -type f -mtime +10 -name &#34;*.txt&#34; -exec cp &#123;&#125; OLD \;&#10;#-exec&#21518;&#19981;&#33021;&#24102;&#22810;&#20010;&#21629;&#20196;&#65292;&#25152;&#20197;&#21487;&#20197;&#23558;&#22810;&#20010;&#21629;&#20196;&#32452;&#21512;&#25918;&#22312;sh&#25991;&#20214;&#20013;&#10;$ find . -type f -mtime +10 -name &#34;*.txt&#34; -exec ./commands.sh &#123;&#125; OLD \;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-5_xargs">2.5 xargs</h3><p>xargs紧跟管道，将stdout转换为另个一命令的stdin。从生产力角度来说，有人认为xargs是最牛逼的命令之一。<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">#&#23558;&#22810;&#34892;&#36755;&#20837;&#36716;&#25442;&#25104;&#21333;&#34892;&#36755;&#20986;&#10;$ cat example.txt # &#26679;&#20363;&#25991;&#20214;&#10;1 2 3 4 5 6&#10;7 8 9 10&#10;11 12&#10;&#12288;&#10;$ cat example.txt | xargs&#10;1 2 3 4 5 6 7 8 9 10 11 12&#10;&#10;#-n &#23558;&#36755;&#20837;&#36716;&#25442;&#20026;&#22810;&#34892;&#36755;&#20986;&#10;cat example.txt | xargs -n 3&#10;1 2 3&#10;4 5 6&#10;7 8 9&#10;10 11 12&#10;&#10;#&#26368;&#24378;&#22823;&#30340;&#123;&#125;,&#19982;find&#30340;exec&#31867;&#20284;&#65292;xargs&#24635;&#26159;&#23558;&#123;&#125;&#26367;&#25442;&#20026;&#24471;&#21040;&#30340;&#21442;&#25968;&#12290;&#10;#&#24182;&#34892;&#22788;&#29702;&#65292;&#23558;jpg&#36716;&#20026;png&#10;ls *.jpg | xargs -I&#123;&#125; -P 8 convert &#34;&#123;&#125;&#34; `echo &#123;&#125; | sed &#39;s/jpg$/png/&#39;` &#10;&#10;#bug ,hello world.txt&#20250;&#34987;&#35748;&#20026;&#26159;hello world.txt&#20004;&#20010;&#25991;&#20214;&#10;$ find . -type f -name &#34;*.txt&#34; -print | xargs rm -f&#10;&#10;#&#36825;&#26679;&#23601;&#21487;&#20197;&#21024;&#38500;&#25152;&#26377;&#30340;.txt&#25991;&#20214;&#12290;xargs -0&#23558;\0&#20316;&#20026;&#36755;&#20837;&#23450;&#30028;&#31526;&#12290;&#10;$ find . -type f -name &#34;*.txt&#34; -print0 | xargs -0 rm -f</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-7awk编程">4.7awk编程</h3>
       
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="/2015/07/04/notes_on_shell_script/" data-id="cie6pzygt0009jsqh3n5sb4x7" class="article-share-link">分享到</a>
+      
+        <a href="/2015/07/04/notes_on_shell_script/#disqus_thread" class="article-comment-link">评论</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell编程/">shell编程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </footer>
   </div>
-</article>
   
-    </div></section>
-  </section>
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/04/07/effective tcp/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Notes On Effective TCP/IP Programming</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
       
         <aside id="sidebar">
   
@@ -338,7 +387,7 @@
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
